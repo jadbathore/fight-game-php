@@ -11,8 +11,8 @@ Le jeu se lance en console, via des tests unitaires.
 
 ## Installation
 
-> git clone https://github.com/balabfr/phpfightgame.git \
-> cd phpfinghtgame \
+> git clone https://git.balab.fr/exercices/php-fight-game.git \
+> cd php-fight-game \
 > composer install
 
 # Règles
