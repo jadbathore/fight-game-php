@@ -8,8 +8,8 @@ use Model\ErrorsFightGame;
 * @namespace Model
 * @extend ErrorFightGame
 * @class AbstractioPlayer classe permettant d'implémenter de manière abstraite des paramètre
-* @param array $playerA correspondant Au premier joueur 1 ici "Bob"
-* @param array $playerB correspondant Au premier joueur 1 ici "Alice"
+* @param array $playerA correspondant Au premier joueur ici "Bob"
+* @param array $playerB correspondant Au deuxieme joueur ici "Alice"
 * @construct permet de construire les joueurs utilise un try catch cette méthode attrape tout les throw lancer par la @method setter() cela permet
 * de ne pas construire la class si une exception est levée et de à la place instancier la protected static $error de son parent ErrorFightGame
  */
