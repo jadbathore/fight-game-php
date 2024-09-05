@@ -1,5 +1,6 @@
 <?php
 
+use Controller\Game;
 
 function checkGame($message, $expectedLines, $outputLines)
 {
@@ -28,11 +29,9 @@ describe('Game', function () {
     foreach ($games as $game) {
         context($game['input'], function () use ($game) {
             $gameObject = new Game($game['input']);
-
             ob_start();
             $gameObject->run();
             $outputLines = ob_get_clean();
-
             checkGame("must run correctly ", $game['output'], $outputLines);
         });
     }

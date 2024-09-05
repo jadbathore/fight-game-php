@@ -67,6 +67,7 @@ Conseils:
 Le code qui suit n'est pas fonctionnel et sa qualité n'est pas à prendre en exemple.\
 Son seul but est de vous aider à mieux appréhender l'exercice.
 ```php
+
 class Game
 {
     private $playerA;
