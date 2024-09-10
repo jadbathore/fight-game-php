@@ -2,30 +2,28 @@
 
 namespace Model;
 
-use Model\ErrorsFightGame;
+use Exception;
+use Model\SingleToneErrorsFightGame;
+use Model\Player;
+
 
 /**
-* @namespace Model
-* @extend ErrorFightGame
-* @class AbstractioPlayer classe permettant d'implémenter de manière abstraite des paramètre
-* @param array $playerA correspondant Au premier joueur 1 ici "Bob"
-* @param array $playerB correspondant Au premier joueur 1 ici "Alice"
-* @construct permet de construire les joueurs utilise un try catch cette méthode attrape tout les throw lancer par la @method setter() cela permet
-* de ne pas construire la class si une exception est levée et de à la place instancier la protected static $error de son parent ErrorFightGame
+ * @class represantant une partie abstrate qui sera composé de 2 objet joueur 
  */
-abstract class AbstractPlayer extends ErrorsFightGame {
-    private array $playerA;
-    private array $playerB;
+abstract class AbstractParty {
+
+    private Player $playerA;
+    private Player $playerB;
     
     public function __construct(
         public string $input
     )
     {
         try{
-            $this->playerA = $this->setter($input)[0];
-            $this->playerB = $this->setter($input)[1];
-        } catch (\Exception $e){
-            $this->setError($e->getMessage());
+            $this->playerA = new Player($this->setter($input)[0]);
+            $this->playerB = new Player($this->setter($input)[1]);
+        }catch(Exception $e){
+            SingleToneErrorsFightGame::initError($e->getMessage());
         }
     }
     
@@ -37,7 +35,7 @@ abstract class AbstractPlayer extends ErrorsFightGame {
     * - doit respecter <string><int(entre1et3)><int(entre1et2)><int(entre1et2)>(si on fait (Bob a 7 4) par exemple une exception est lancer)
     * @return array
      */
-    public function setter(string $input):array
+    private function setter(string $input):array
     {
         $rawPlayerInfo =  preg_split('/\n/',$input,0);
         if(count($rawPlayerInfo) == 2)
@@ -55,29 +53,42 @@ abstract class AbstractPlayer extends ErrorsFightGame {
                         $table[$i]['def'] = next($infos);
                         $i++;
                     } else {
-                        throw new \Exception(parent::PATTERN_ERROR);
+                        ;
+                        throw new Exception('PATTERN_ERROR');
                         break;
                     }
                 }
         } else {
-            throw new \Exception(parent::PLAYER_NUMBER_ERROR);
+            throw new Exception('PLAYER_NUMBER_ERROR');
         }
         return $table;
     }
 
     /**
+     * @abstract round prédefini de manière abstrait forcant les class enfant a utilisé cette methode de cette manière;
+     */
+    abstract public function round(Player $playerA,Player $playerB);
+
+
+    public function swapPlayer(Player &$playerA,Player &$playerB):void{
+        $temps = $playerA;
+        $playerA = $playerB;
+        $playerB = $temps;
+    }
+
+    /**
     * @public méthode permettant de retourner le paramètre injectable playerA
-    * @return array
+    * @return Player
     */
-    public function getterplayerA():array{
+    public function getterplayerA():Player{
         return $this->playerA;
     }
     
     /**
     * @public méthode permettant de retourner le paramètre injectable playerB
-    * @return array
+    * @return Player
     */
-    public function getterplayerB():array{
+    public function getterplayerB():Player{
         return $this->playerB;
     }
 }
